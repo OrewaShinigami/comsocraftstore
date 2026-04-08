@@ -1,0 +1,22 @@
+<section class="cosmo-sidebar-card cosmo-section">
+    <p class="cosmo-eyebrow">{{ module.header }}</p>
+    {% if module.donor %}
+        <div class="cosmo-mini-row">
+            {% if module.skin %}
+                <img src="{{ module.skin }}" alt="{{ module.ign }}">
+            {% endif %}
+            <div>
+                <strong>{{ module.ign }}</strong>
+                <small class="cosmo-muted">
+                    {% if module.displayAmount %}
+                        {{ module.total }} during {{ module.period }}
+                    {% else %}
+                        Top supporter this {{ module.period }}
+                    {% endif %}
+                </small>
+            </div>
+        </div>
+    {% else %}
+        <p class="cosmo-muted">No top donator has been recorded yet.</p>
+    {% endif %}
+</section>

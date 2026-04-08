@@ -1,0 +1,112 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    {% set homeTitle = config('home-welcome-title') ? config('home-welcome-title') : 'Launch into the Cosmo Craft universe.' %}
+    {% set homeText = config('home-welcome-text') ? config('home-welcome-text') : 'Support the SMP, unlock ranks, stack cosmic rewards, and keep the whole community exploring further.' %}
+    <section class="cosmo-hero cosmo-reveal">
+        <div class="cosmo-hero-copy">
+            <p class="cosmo-eyebrow">Cosmo Craft SMP</p>
+            <h1>{{ homeTitle }}</h1>
+            <p class="cosmo-page-lead">{{ homeText }}</p>
+
+            <div class="cosmo-chip-row">
+                <span class="cosmo-chip">{{ store.categories|length }} store categories</span>
+                <span class="cosmo-chip">{{ basket.currency ? basket.currency : store.currency }} active currency</span>
+                <span class="cosmo-chip">{{ basket.packages|length }} item{% if basket.packages|length != 1 %}s{% endif %} in cart</span>
+            </div>
+
+            <div class="cosmo-hero-actions">
+                <a class="cosmo-button" href="/store">Enter the store</a>
+                <a class="cosmo-button-secondary" href="/vote">Claim vote keys</a>
+                <a class="cosmo-button-ghost" href="/rules">Read the rules</a>
+            </div>
+        </div>
+
+        <div class="cosmo-hero-art">
+            <div class="cosmo-art-card is-tall">
+                <p class="cosmo-eyebrow">Featured Paths</p>
+                <strong>Ranks</strong>
+                <small>Gold to Custom progression with kits, homes, and quality-of-life commands.</small>
+            </div>
+            <div class="cosmo-art-card">
+                <p class="cosmo-eyebrow">Daily Loop</p>
+                <strong>Vote for keys</strong>
+                <small>Grab up to 6 keys and keep your streak alive.</small>
+            </div>
+            <div class="cosmo-art-card">
+                <p class="cosmo-eyebrow">Community</p>
+                <strong>Discord first</strong>
+                <small>Support, customs, updates, and staff contact all happen there.</small>
+            </div>
+        </div>
+    </section>
+
+    <section class="cosmo-grid-three">
+        <article class="cosmo-card cosmo-announcement cosmo-reveal">
+            <p class="cosmo-eyebrow">Announcement</p>
+            <h3>Store updates</h3>
+            <p>{{ config('announcement-1') ? config('announcement-1') : 'Season reset soon. Secure your rank before new cosmic quests arrive.' }}</p>
+        </article>
+        <article class="cosmo-card cosmo-announcement cosmo-reveal">
+            <p class="cosmo-eyebrow">Announcement</p>
+            <h3>Voting rewards</h3>
+            <p>{{ config('announcement-2') ? config('announcement-2') : 'Vote streak rewards are active. Claim up to 6 keys every day.' }}</p>
+        </article>
+        <article class="cosmo-card cosmo-announcement cosmo-reveal">
+            <p class="cosmo-eyebrow">Announcement</p>
+            <h3>Custom orders</h3>
+            <p>{{ config('announcement-3') ? config('announcement-3') : 'Custom item requests are handled through Discord tickets only.' }}</p>
+        </article>
+    </section>
+
+    <section class="cosmo-panel cosmo-reveal">
+        <p class="cosmo-eyebrow">Community Posts</p>
+        <div class="cosmo-grid-three">
+            <article class="cosmo-list-card">
+                <h3>Galaxy Dispatch 01</h3>
+                <p>{{ config('community-post-1') ? config('community-post-1') : 'Faction wars are heating up. Build smart, travel faster, and defend your claims.' }}</p>
+            </article>
+            <article class="cosmo-list-card">
+                <h3>Galaxy Dispatch 02</h3>
+                <p>{{ config('community-post-2') ? config('community-post-2') : 'New players are joining daily. Share the IP, invite friends, and grow the universe.' }}</p>
+            </article>
+            <article class="cosmo-list-card">
+                <h3>Galaxy Dispatch 03</h3>
+                <p>{{ config('community-post-3') ? config('community-post-3') : 'Staff applications and support requests happen directly in Discord.' }}</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="cosmo-panel cosmo-reveal">
+        <div class="cosmo-section-head">
+            <div>
+                <p class="cosmo-eyebrow">Shop Navigation</p>
+                <h2>Jump into a category</h2>
+            </div>
+            <a class="cosmo-button-secondary" href="/store">Open the full store page</a>
+        </div>
+
+        <div class="cosmo-category-preview">
+            {% for category in store.categories %}
+                <a class="cosmo-category-tile" href="/category/{{ category.slug ? category.slug : category.id }}">
+                    <p class="cosmo-eyebrow">Category {{ loop.index }}</p>
+                    <h3>{{ category.name }}</h3>
+                    <span>{{ category.description ? category.description|striptags : 'Browse everything available in this section of the store.' }}</span>
+                </a>
+            {% else %}
+                <div class="cosmo-category-tile">
+                    <p class="cosmo-eyebrow">Setup</p>
+                    <h3>Add your store categories</h3>
+                    <span>Create Ranks, Cosmo Money, and Custom categories inside Tebex to populate this area automatically.</span>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    {% if description %}
+        <section class="cosmo-card cosmo-reveal">
+            <p class="cosmo-eyebrow">Welcome Message</p>
+            <div class="cosmo-richtext">{{ description|raw }}</div>
+        </section>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,20 @@
+<section class="cosmo-sidebar-card cosmo-section">
+    <p class="cosmo-eyebrow">{{ module.header }}</p>
+    <div class="cosmo-payment-list">
+        {% for payment in module.payments %}
+            <div class="cosmo-payment-row">
+                <div>
+                    <strong>{{ payment.ign }}</strong>
+                    <small class="cosmo-muted">
+                        {% if module.displayPackage %}{{ payment.name }} - {% endif %}{{ payment.time }}
+                    </small>
+                </div>
+                {% if module.displayPrice %}
+                    <span>{{ payment.price }} {{ payment.currency }}</span>
+                {% endif %}
+            </div>
+        {% else %}
+            <p class="cosmo-muted">No recent payments yet.</p>
+        {% endfor %}
+    </div>
+</section>

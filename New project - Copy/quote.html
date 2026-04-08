@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <section class="cosmo-checkout-box cosmo-reveal">
+        <p class="cosmo-eyebrow">Tier Update</p>
+        <h1 class="cosmo-page-title">Confirm your tier change</h1>
+        <div class="cosmo-richtext">{{ description|raw }}</div>
+
+        <form class="cosmo-form-grid" method="post" action="/tier/update">
+            <input type="hidden" name="category_id" value="{{ category }}">
+            <input type="hidden" name="package_id" value="{{ package }}">
+            {% for key, value in options %}
+                <input type="hidden" name="options[{{ key }}]" value="{{ value }}">
+            {% endfor %}
+
+            <div class="cosmo-inline-actions">
+                <a class="cosmo-button-secondary" href="/category/{{ category }}">Back</a>
+                <button class="cosmo-button" type="submit">Confirm update</button>
+            </div>
+        </form>
+    </section>
+{% endblock %}

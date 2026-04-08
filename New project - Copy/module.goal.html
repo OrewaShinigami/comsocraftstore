@@ -1,0 +1,12 @@
+<section class="cosmo-sidebar-card cosmo-section">
+    <p class="cosmo-eyebrow">{{ module.header }}</p>
+    <div class="cosmo-progress-track" style="margin: 0.6rem 0 0.75rem;">
+        <div class="cosmo-progress-bar" style="width: {{ module.percentage }}%;"></div>
+    </div>
+    <p class="cosmo-muted">
+        {{ module.percentage }}% complete
+        {% if module.displayAmount %}
+            - {{ module.total }} / {{ module.target }}
+        {% endif %}
+    </p>
+</section>

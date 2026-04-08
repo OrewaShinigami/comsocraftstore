@@ -1,0 +1,21 @@
+{% set featuredIdentifier = module.package.identifier ? module.package.identifier : module.package.id %}
+{% set featuredPurchaseType = module.package.type is defined and module.package.type == 'subscription' ? 'subscribe' : 'single' %}
+<section class="cosmo-sidebar-card cosmo-section">
+    <p class="cosmo-eyebrow">{{ module.header }}</p>
+    <h3>{{ module.package.name }}</h3>
+    {% if module.package.image and module.package.image.url %}
+        <div class="cosmo-package-media" style="margin-bottom: 1rem;">
+            <img src="{{ module.package.image.url }}" alt="{{ module.package.name }}">
+        </div>
+    {% endif %}
+    {% if module.package.description %}
+        <div class="cosmo-richtext">{{ module.package.description|raw }}</div>
+    {% endif %}
+    <div class="cosmo-price-line">
+        <strong>{{ module.package.price|money }}</strong>
+    </div>
+    <div class="cosmo-inline-actions">
+        <a class="cosmo-button" href="/checkout/packages/add/{{ featuredIdentifier }}/{{ featuredPurchaseType }}">Add to cart</a>
+        <a class="cosmo-button-secondary" href="/package/{{ featuredIdentifier }}">Details</a>
+    </div>
+</section>

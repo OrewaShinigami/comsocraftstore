@@ -1,0 +1,220 @@
+{
+  "author": "OpenAI Codex",
+  "support_email": "support@example.com",
+  "config": [
+    {
+      "header": "Branding",
+      "options": [
+        {
+          "id": "primary-colour",
+          "name": "Primary Colour",
+          "default": "#8f63ff",
+          "description": "Main glow colour used across buttons and highlights.",
+          "type": "colour-picker"
+        },
+        {
+          "id": "accent-colour",
+          "name": "Accent Colour",
+          "default": "#5ce1ff",
+          "description": "Secondary accent used for chips, badges, and highlights.",
+          "type": "colour-picker"
+        },
+        {
+          "id": "secondary-colour",
+          "name": "Text Highlight Colour",
+          "default": "#ffffff",
+          "description": "Bright text colour for important headings.",
+          "type": "colour-picker"
+        },
+        {
+          "id": "surface-colour",
+          "name": "Panel Base Colour",
+          "default": "#101126",
+          "description": "Base background shade for cards and glass panels.",
+          "type": "colour-picker"
+        },
+        {
+          "id": "brand-mark",
+          "name": "Custom Logo",
+          "default": "",
+          "description": "Upload your own logo if you want to replace the included space logo.",
+          "type": "image-uploader"
+        },
+        {
+          "id": "custom-favicon",
+          "name": "Custom Favicon",
+          "default": "",
+          "description": "Upload your own favicon if desired.",
+          "type": "image-uploader"
+        },
+        {
+          "id": "meta-description",
+          "name": "Meta Description",
+          "default": "Cosmo Craft SMP is a space-themed Minecraft community store powered by Tebex.",
+          "description": "Short description used for browser tabs and link previews.",
+          "type": "textarea"
+        }
+      ]
+    },
+    {
+      "header": "Hero",
+      "options": [
+        {
+          "id": "home-welcome-title",
+          "name": "Home Title",
+          "default": "Launch into the Cosmo Craft universe.",
+          "description": "Large heading shown on the home page.",
+          "type": "textarea"
+        },
+        {
+          "id": "home-welcome-text",
+          "name": "Home Intro",
+          "default": "Support the SMP, unlock ranks, stack cosmic rewards, and keep the whole community exploring further.",
+          "description": "Main introduction on the home page.",
+          "type": "textarea"
+        },
+        {
+          "id": "server-ip",
+          "name": "Server IP",
+          "default": "play.cosmocraft.net",
+          "description": "Shown in the copy IP button in the header and home page.",
+          "type": "textarea"
+        },
+        {
+          "id": "discord-url",
+          "name": "Discord Invite URL",
+          "default": "https://discord.gg/yourinvite",
+          "description": "Used in the header and Rules page invite buttons.",
+          "type": "url"
+        },
+        {
+          "id": "footer-note",
+          "name": "Footer Note",
+          "default": "Built for explorers, raiders, traders, and every cosmic survivor in Cosmo Craft.",
+          "description": "Custom footer sentence.",
+          "type": "textarea"
+        }
+      ]
+    },
+    {
+      "header": "Home Content",
+      "options": [
+        {
+          "id": "announcement-1",
+          "name": "Announcement One",
+          "default": "Season reset soon. Secure your rank before new cosmic quests arrive.",
+          "description": "First announcement card on the home page.",
+          "type": "textarea"
+        },
+        {
+          "id": "announcement-2",
+          "name": "Announcement Two",
+          "default": "Vote streak rewards are active. Claim up to 6 keys every day.",
+          "description": "Second announcement card on the home page.",
+          "type": "textarea"
+        },
+        {
+          "id": "announcement-3",
+          "name": "Announcement Three",
+          "default": "Custom item requests are handled through Discord tickets only.",
+          "description": "Third announcement card on the home page.",
+          "type": "textarea"
+        },
+        {
+          "id": "community-post-1",
+          "name": "Community Post One",
+          "default": "Faction wars are heating up. Build smart, travel faster, and defend your claims.",
+          "description": "First community post card on the home page.",
+          "type": "textarea"
+        },
+        {
+          "id": "community-post-2",
+          "name": "Community Post Two",
+          "default": "New players are joining daily. Share the IP, invite friends, and grow the universe.",
+          "description": "Second community post card on the home page.",
+          "type": "textarea"
+        },
+        {
+          "id": "community-post-3",
+          "name": "Community Post Three",
+          "default": "Staff applications and support requests happen directly in Discord.",
+          "description": "Third community post card on the home page.",
+          "type": "textarea"
+        }
+      ]
+    },
+    {
+      "header": "Store Links",
+      "options": [
+        {
+          "id": "ranks-category-slug",
+          "name": "Ranks Category Slug",
+          "default": "ranks",
+          "description": "Slug for the Tebex category containing rank packages.",
+          "type": "textarea"
+        },
+        {
+          "id": "money-category-slug",
+          "name": "Money Category Slug",
+          "default": "cosmo-money",
+          "description": "Slug for the Tebex category containing money packages.",
+          "type": "textarea"
+        },
+        {
+          "id": "custom-category-slug",
+          "name": "Custom Category Slug",
+          "default": "custom",
+          "description": "Slug for the Tebex category or page containing custom orders.",
+          "type": "textarea"
+        },
+        {
+          "id": "custom-ticket-url",
+          "name": "Custom Ticket URL",
+          "default": "https://discord.gg/yourinvite",
+          "description": "Discord link used for opening custom purchase tickets.",
+          "type": "url"
+        },
+        {
+          "id": "custom-warning-text",
+          "name": "Custom Warning Text",
+          "default": "Warning: opening a custom order ticket and wasting staff time without buying may lead to a ban.",
+          "description": "Warning shown on the Store page custom section.",
+          "type": "textarea"
+        }
+      ]
+    },
+    {
+      "header": "Vote Buttons",
+      "options": [
+        {
+          "id": "vote-link-1",
+          "name": "Vote Link One",
+          "default": "",
+          "description": "First vote website URL.",
+          "type": "url"
+        },
+        {
+          "id": "vote-link-2",
+          "name": "Vote Link Two",
+          "default": "",
+          "description": "Second vote website URL.",
+          "type": "url"
+        },
+        {
+          "id": "vote-link-3",
+          "name": "Vote Link Three",
+          "default": "",
+          "description": "Third vote website URL.",
+          "type": "url"
+        },
+        {
+          "id": "vote-link-4",
+          "name": "Vote Link Four",
+          "default": "",
+          "description": "Fourth vote website URL.",
+          "type": "url"
+        }
+      ]
+    }
+  ]
+}

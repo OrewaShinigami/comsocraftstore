@@ -1,0 +1,27 @@
+<section class="cosmo-sidebar-card cosmo-section">
+    <p class="cosmo-eyebrow">{{ module.header }}</p>
+    <form class="cosmo-form-grid" method="get">
+        <div class="cosmo-field">
+            <label for="giftcard_card_number">Gift Card Number</label>
+            <input class="cosmo-input" id="giftcard_card_number" name="card_number" type="text" value="{{ giftcard.card_number ? giftcard.card_number : '' }}" placeholder="Enter gift card number">
+        </div>
+        <button class="cosmo-button-secondary" type="submit">Check balance</button>
+    </form>
+
+    {% if search %}
+        <div class="cosmo-card" style="margin-top: 1rem;">
+            {% if giftcard %}
+                <h3>{{ giftcard.card_number }}</h3>
+                <p class="cosmo-muted">
+                    {% if giftcard.void %}
+                        This gift card has been voided.
+                    {% else %}
+                        Remaining balance: {{ giftcard.remaining_balance }}
+                    {% endif %}
+                </p>
+            {% else %}
+                <p class="cosmo-muted">No gift card matched that number.</p>
+            {% endif %}
+        </div>
+    {% endif %}
+</section>

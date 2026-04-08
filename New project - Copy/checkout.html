@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <section class="cosmo-page-header cosmo-reveal">
+        <article class="cosmo-checkout-box">
+            <p class="cosmo-eyebrow">Checkout</p>
+            <h1 class="cosmo-page-title">Secure your cosmic order</h1>
+            <p class="cosmo-page-lead">Review your basket, confirm your currency, then continue to Tebex checkout to complete the payment.</p>
+
+            {% if not store.noLogin and not basket.ign %}
+                <div class="cosmo-vote-cta">
+                    <h3>Login first</h3>
+                    <p>Enter your Minecraft username before paying so every reward lands on the correct account.</p>
+                    <div class="cosmo-inline-actions">
+                        <a class="cosmo-button-secondary" href="/username">Login now</a>
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="cosmo-currency-grid">
+                {% for currency in store.currencies is defined and store.currencies|length > 0 ? store.currencies : ['USD', 'INR', 'AUD', 'EUR', 'PLN', 'GBP'] %}
+                    <a class="cosmo-currency-chip{% if (basket.currency ? basket.currency : store.currency) == currency %} is-active{% endif %}" href="?currency={{ currency }}">{{ currency }}</a>
+                {% endfor %}
+            </div>
+        </article>
+
+        <article class="cosmo-checkout-box">
+            <p class="cosmo-eyebrow">Order Summary</p>
+            <h3>Total: {{ basket.price|money }}</h3>
+            <div class="cosmo-mini-list">
+                {% for item in basket.packages %}
+                    <div class="cosmo-mini-row">
+                        <div>
+                            <strong>{{ item.name }}</strong>
+                            <small class="cosmo-muted">Qty {{ item.quantity is defined ? item.quantity : 1 }}</small>
+                        </div>
+                        <span>{{ item.price|money }}</span>
+                    </div>
+                {% else %}
+                    <div class="cosmo-empty-state">
+                        <p>Your basket is empty.</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </article>
+    </section>
+
+    <section class="cosmo-checkout-box cosmo-reveal">
+        <p class="cosmo-eyebrow">Payment Portal</p>
+        <h3>Continue with Tebex checkout</h3>
+        <p class="cosmo-muted">Use the launch button for the embedded flow, or use the fallback form if your browser blocks it. Tebex handles billing, payment methods, and final order processing.</p>
+        <div class="cosmo-checkout-actions">
+            <button class="cosmo-button" type="button" data-checkout-launch>Launch checkout</button>
+            <a class="cosmo-button-secondary" href="/store">Keep shopping</a>
+        </div>
+        <form method="post" action="/checkout/pay" style="margin-top: 1rem;">
+            <button type="submit" class="cosmo-button-secondary" style="width: 100%;">Proceed to Tebex checkout</button>
+        </form>
+    </section>
+{% endblock %}

@@ -1,0 +1,23 @@
+<section class="cosmo-sidebar-card cosmo-section">
+    <p class="cosmo-eyebrow">{{ module.header }}</p>
+    {% if module.communitygoal.image %}
+        <div class="cosmo-package-media" style="margin-bottom: 1rem;">
+            <img src="{{ module.communitygoal.image }}" alt="{{ module.header }}">
+        </div>
+    {% endif %}
+    {% if module.communitygoal.description %}
+        <div class="cosmo-richtext">{{ module.communitygoal.description|raw }}</div>
+    {% endif %}
+    <div class="cosmo-progress-track" style="margin: 1rem 0 0.75rem;">
+        <div class="cosmo-progress-bar" style="width: {{ module.percentage }}%;"></div>
+    </div>
+    <p class="cosmo-muted">
+        {{ module.percentage }}% complete
+        {% if module.displayAmount %}
+            - {{ module.total }} / {{ module.target }}
+        {% endif %}
+    </p>
+    {% if module.communitygoal.repeatable %}
+        <p class="cosmo-muted">Completed {{ module.communitygoal.times_achieved }} times</p>
+    {% endif %}
+</section>

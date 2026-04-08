@@ -1,0 +1,346 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    {% set pageKey = title|lower|trim %}
+    {% set voteLinks = [config('vote-link-1'), config('vote-link-2'), config('vote-link-3'), config('vote-link-4')] %}
+    {% set ranksSlug = config('ranks-category-slug') ? config('ranks-category-slug') : 'ranks' %}
+    {% set moneySlug = config('money-category-slug') ? config('money-category-slug') : 'cosmo-money' %}
+    {% set customSlug = config('custom-category-slug') ? config('custom-category-slug') : 'custom' %}
+
+    {% if pageKey == 'rules' %}
+        <section class="cosmo-page-header cosmo-reveal">
+            <article class="cosmo-card">
+                <p class="cosmo-eyebrow">Community Guide</p>
+                <h1 class="cosmo-page-title">Rules of the Cosmo Craft universe</h1>
+                <p class="cosmo-page-lead">Cosmo Craft is a space-themed community focused on survival, PvP, and fair play. Read everything carefully before you jump in, then join the Discord if you need help.</p>
+                <div class="cosmo-inline-actions">
+                    <a class="cosmo-button" href="{{ config('discord-url') ? config('discord-url') : '#' }}" target="_blank" rel="noreferrer">Join Discord</a>
+                    <a class="cosmo-button-secondary" href="/">Back home</a>
+                </div>
+            </article>
+
+            <article class="cosmo-card">
+                <p class="cosmo-eyebrow">Community Home</p>
+                <h3>Short intro</h3>
+                <p class="cosmo-muted">Cosmo Craft is designed for players who want a polished survival experience with a strong Discord community, competitive events, and room for long-term progression. Respect the community, keep the gameplay clean, and use common sense even when a rule does not mention your exact situation.</p>
+            </article>
+        </section>
+
+        <section class="cosmo-rules-grid">
+            <article class="cosmo-rule-block cosmo-reveal">
+                <p class="cosmo-eyebrow">Minecraft Rules</p>
+                <ol class="cosmo-rule-list">
+                    <li>Spamming</li>
+                    <li>Disrespectful behavior</li>
+                    <li>Bigotry including slurs or derogatory comments about race, gender, disability, and similar topics</li>
+                    <li>Griefing or stealing. Both are allowed on Lifesteal.</li>
+                    <li>Staff disrespect</li>
+                    <li>Advertising or self-promotion</li>
+                    <li>Use of unfair advantage</li>
+                    <li>Client modifications that provide unfair advantages, including Easy Place or Aim Assist</li>
+                    <li>Bypassing disciplinary actions</li>
+                    <li>Fighting or drama</li>
+                    <li>Use of inappropriate usernames or skins</li>
+                    <li>Discussing politics or religion</li>
+                    <li>Refusal to leave a location</li>
+                    <li>Abusing nicknames</li>
+                    <li>Building inappropriate structures</li>
+                    <li>Selecting inappropriate item names</li>
+                    <li>Threatening behavior</li>
+                    <li>Discussion or use of duplication exploits</li>
+                    <li>Discussion or use of lag machines</li>
+                    <li>Sending suspicious links</li>
+                    <li>Predatory behavior</li>
+                    <li>Encouraging rule-breaking behavior</li>
+                    <li>Discussion of sensitive topics</li>
+                    <li>Discussing punishments</li>
+                    <li>Scamming. This is allowed on Lifesteal.</li>
+                    <li>Exploiting the server</li>
+                    <li>Trapping and killing other players. Teleportation kills are allowed on Lifesteal.</li>
+                    <li>Impersonation</li>
+                    <li>Real-life trades of any kind</li>
+                    <li>Bot attacks</li>
+                    <li>IP-grabbing</li>
+                    <li>Abusing alts</li>
+                </ol>
+            </article>
+
+            <article class="cosmo-rule-block cosmo-reveal">
+                <p class="cosmo-eyebrow">Discord Rules</p>
+                <ol class="cosmo-rule-list">
+                    <li>Speaking in a non-English language</li>
+                    <li>Spamming</li>
+                    <li>Disrespectful behavior</li>
+                    <li>Use of inappropriate names or other profile attributes</li>
+                    <li>Advertising or self-promotion</li>
+                    <li>Bypassing chat filters</li>
+                    <li>Bigotry including slurs or derogatory comments about race, gender, disability, and similar topics</li>
+                    <li>Staff disrespect</li>
+                    <li>Abusing screenshare privileges</li>
+                    <li>Trolling behavior</li>
+                    <li>Sending suspicious or irrelevant links</li>
+                    <li>Discussion of sensitive topics</li>
+                    <li>Discussing punishments</li>
+                    <li>Abusing support or suggestions systems</li>
+                    <li>Impersonation</li>
+                    <li>Threatening behavior</li>
+                    <li>Discussing politics or religion</li>
+                    <li>Fighting or drama</li>
+                    <li>Predatory behavior</li>
+                    <li>Exploiting the support system and staff</li>
+                    <li>Bot attacks</li>
+                    <li>IP-grabbing</li>
+                    <li>Using commands in the wrong channel</li>
+                    <li>Bypassing disciplinary actions</li>
+                    <li>Submitting duplicate tickets</li>
+                    <li>Real-life trades of any kind</li>
+                </ol>
+            </article>
+        </section>
+
+        {% if metaData.content %}
+            <section class="cosmo-card cosmo-reveal">
+                <p class="cosmo-eyebrow">Extra Notes</p>
+                <div class="cosmo-richtext">{{ metaData.content|raw }}</div>
+            </section>
+        {% endif %}
+    {% elseif pageKey == 'vote' %}
+        <section class="cosmo-page-header cosmo-reveal">
+            <article class="cosmo-card">
+                <p class="cosmo-eyebrow">Vote Rewards</p>
+                <h1 class="cosmo-page-title">Claim up to 6 keys by voting</h1>
+                <p class="cosmo-page-lead">Vote daily, stack your streak, and collect keys that help you progress faster in the Cosmo Craft universe.</p>
+            </article>
+
+            <article class="cosmo-vote-cta">
+                <div class="cosmo-vote-key">6K</div>
+                <h3>Six keys per full vote cycle</h3>
+                <p class="cosmo-muted">Fill in your vote websites inside the schema settings, then these buttons become your daily launch pad.</p>
+            </article>
+        </section>
+
+        <section class="cosmo-grid-two">
+            {% for voteLink in voteLinks if voteLink %}
+                <article class="cosmo-card cosmo-reveal">
+                    <p class="cosmo-eyebrow">Vote Site {{ loop.index }}</p>
+                    <h3>Open vote link</h3>
+                    <p class="cosmo-muted">Use this site to keep your streak going and claim another part of the 6-key reward cycle.</p>
+                    <div class="cosmo-inline-actions">
+                        <a class="cosmo-button" href="{{ voteLink }}" target="_blank" rel="noreferrer">Vote now</a>
+                    </div>
+                </article>
+            {% else %}
+                <article class="cosmo-card cosmo-reveal">
+                    <p class="cosmo-eyebrow">Setup needed</p>
+                    <h3>Add your vote links</h3>
+                    <p class="cosmo-muted">Open the included schema file and paste your vote URLs into `vote-link-1` through `vote-link-4`.</p>
+                </article>
+            {% endfor %}
+        </section>
+
+        {% if metaData.content %}
+            <section class="cosmo-card cosmo-reveal">
+                <p class="cosmo-eyebrow">Extra Voting Info</p>
+                <div class="cosmo-richtext">{{ metaData.content|raw }}</div>
+            </section>
+        {% endif %}
+    {% elseif pageKey == 'store' %}
+        <section class="cosmo-store-header cosmo-reveal">
+            <article class="cosmo-card">
+                <p class="cosmo-eyebrow">Store Hub</p>
+                <h1 class="cosmo-page-title">Choose your loadout</h1>
+                <p class="cosmo-page-lead">Switch currency, compare every package line, and jump straight to the Tebex categories that power the real cart and checkout flow.</p>
+                <div class="cosmo-currency-grid">
+                    {% for currency in store.currencies is defined and store.currencies|length > 0 ? store.currencies : ['USD', 'INR', 'AUD', 'EUR', 'PLN', 'GBP'] %}
+                        <a class="cosmo-currency-chip{% if (basket.currency ? basket.currency : store.currency) == currency %} is-active{% endif %}" href="?currency={{ currency }}">{{ currency }}</a>
+                    {% endfor %}
+                </div>
+            </article>
+
+            <article class="cosmo-card">
+                <p class="cosmo-eyebrow">Quick Links</p>
+                <div class="cosmo-inline-actions">
+                    <a class="cosmo-button" href="/category/{{ ranksSlug }}">Open ranks</a>
+                    <a class="cosmo-button-secondary" href="/category/{{ moneySlug }}">Open money</a>
+                    <a class="cosmo-button-ghost" href="/category/{{ customSlug }}">Open custom</a>
+                </div>
+                <p class="cosmo-muted">Your cart and checkout drawer stay available on every page, so players can build their order from anywhere.</p>
+            </article>
+        </section>
+
+        <section class="cosmo-store-comparison">
+            <article class="cosmo-table-card cosmo-reveal">
+                <p class="cosmo-eyebrow">Ranks</p>
+                <h3>Rank progression</h3>
+
+                <div class="cosmo-store-package">
+                    <h4>Gold</h4>
+                    <p><strong>Price:</strong> $0.99</p>
+                    <ul class="cosmo-perk-list">
+                        <li>Set up to 2 homes</li>
+                        <li>1.4x Survival XP multiplier</li>
+                        <li>Gold kit access</li>
+                        <li>Commands: /hat, /craft, /recipe, /anvil, /back</li>
+                    </ul>
+                </div>
+
+                <div class="cosmo-store-package">
+                    <h4>Diamond</h4>
+                    <p><strong>Price:</strong> $1.99</p>
+                    <ul class="cosmo-perk-list">
+                        <li>Set up to 3 homes</li>
+                        <li>1.5x Survival XP multiplier</li>
+                        <li>Diamond kit access</li>
+                        <li>Commands: /hat, /craft, /recipe, /anvil, /back, /enderchest, /feed</li>
+                    </ul>
+                </div>
+
+                <div class="cosmo-store-package">
+                    <h4>Emerald</h4>
+                    <p><strong>Price:</strong> $2.99</p>
+                    <ul class="cosmo-perk-list">
+                        <li>Set up to 4 homes</li>
+                        <li>1.7x Survival XP multiplier</li>
+                        <li>Emerald kit access</li>
+                        <li>Commands: /hat, /craft, /recipe, /anvil, /back, /enderchest, /feed</li>
+                    </ul>
+                </div>
+
+                <div class="cosmo-store-package">
+                    <h4>Netherite</h4>
+                    <p><strong>Price:</strong> $4.99</p>
+                    <ul class="cosmo-perk-list">
+                        <li>Set up to 6 homes</li>
+                        <li>2.3x Survival XP multiplier</li>
+                        <li>Netherite kit access</li>
+                        <li>Commands: /hat, /craft, /recipe, /anvil, /back, /enderchest, /feed, /disposal, /nick, /ptime, /near, /suicide</li>
+                    </ul>
+                </div>
+
+                <div class="cosmo-store-package">
+                    <h4>Amethyst</h4>
+                    <p><strong>Price:</strong> $8.00</p>
+                    <ul class="cosmo-perk-list">
+                        <li>Set up to 7 homes</li>
+                        <li>2.5x Survival XP multiplier</li>
+                        <li>Amethyst kit access</li>
+                        <li>Commands: /hat, /craft, /recipe, /anvil, /back, /enderchest, /feed, /disposal, /nick, /ptime, /near, /suicide, /vanish, /fly (in claim)</li>
+                    </ul>
+                </div>
+
+                <div class="cosmo-store-package">
+                    <h4>Custom</h4>
+                    <p><strong>Price:</strong> $8.00</p>
+                    <ul class="cosmo-perk-list">
+                        <li>Set up to 7 homes</li>
+                        <li>2.5x Survival XP multiplier</li>
+                        <li>Premium custom support flow</li>
+                        <li>Commands can mirror or expand on your highest available rank</li>
+                    </ul>
+                </div>
+
+                <div class="cosmo-inline-actions">
+                    <a class="cosmo-button" href="/category/{{ ranksSlug }}">Browse rank category</a>
+                </div>
+            </article>
+
+            <article class="cosmo-table-card cosmo-reveal">
+                <p class="cosmo-eyebrow">Cosmo Money</p>
+                <h3>Money package lineup</h3>
+
+                <div class="cosmo-store-package">
+                    <h4>500,000</h4>
+                    <p><strong>Price:</strong> $1.20</p>
+                </div>
+                <div class="cosmo-store-package">
+                    <h4>1,000,000</h4>
+                    <p><strong>Price:</strong> $2.00</p>
+                </div>
+                <div class="cosmo-store-package">
+                    <h4>2,000,000</h4>
+                    <p><strong>Price:</strong> $3.50</p>
+                </div>
+                <div class="cosmo-store-package">
+                    <h4>5,000,000</h4>
+                    <p><strong>Price:</strong> $6.00</p>
+                </div>
+                <div class="cosmo-store-package">
+                    <h4>10,000,000</h4>
+                    <p><strong>Price:</strong> $10.00</p>
+                </div>
+                <div class="cosmo-store-package">
+                    <h4>25,000,000</h4>
+                    <p><strong>Price:</strong> $15.00</p>
+                </div>
+                <div class="cosmo-store-package">
+                    <h4>50,000,000</h4>
+                    <p><strong>Price:</strong> $20.00</p>
+                </div>
+
+                <div class="cosmo-inline-actions">
+                    <a class="cosmo-button-secondary" href="/category/{{ moneySlug }}">Browse money category</a>
+                </div>
+            </article>
+
+            <article class="cosmo-table-card cosmo-support-warning cosmo-reveal">
+                <p class="cosmo-eyebrow">Custom Orders</p>
+                <h3>Need a custom item?</h3>
+                <p class="cosmo-muted">Open a Discord ticket, explain what you want to buy, and staff will reply with the correct package or next step.</p>
+                <p><strong>{{ config('custom-warning-text') ? config('custom-warning-text') : 'Warning: opening a custom order ticket and wasting staff time without buying may lead to a ban.' }}</strong></p>
+                <div class="cosmo-inline-actions">
+                    <a class="cosmo-button" href="{{ config('custom-ticket-url') ? config('custom-ticket-url') : (config('discord-url') ? config('discord-url') : '#') }}" target="_blank" rel="noreferrer">Create ticket</a>
+                    <a class="cosmo-button-secondary" href="/category/{{ customSlug }}">Open custom section</a>
+                </div>
+            </article>
+        </section>
+    {% elseif pageKey == 'staff' %}
+        {% set hasCustomContent = metaData.content and metaData.content|striptags|trim != '' %}
+
+        <section class="cosmo-page-header cosmo-reveal">
+            <article class="cosmo-card">
+                <p class="cosmo-eyebrow">Staff Team</p>
+                <h1 class="cosmo-page-title">Meet the people behind Cosmo Craft</h1>
+                <p class="cosmo-page-lead">Show your full team here with ranks and Minecraft skins. You can paste the included staff HTML snippet into this page content or keep the placeholders below until names are ready.</p>
+            </article>
+
+            <article class="cosmo-card">
+                <p class="cosmo-eyebrow">Recommended Order</p>
+                <div class="cosmo-mini-list">
+                    <div class="cosmo-mini-row"><strong>Chairman</strong></div>
+                    <div class="cosmo-mini-row"><strong>B.O.D</strong></div>
+                    <div class="cosmo-mini-row"><strong>CEO</strong></div>
+                    <div class="cosmo-mini-row"><strong>Manager</strong></div>
+                    <div class="cosmo-mini-row"><strong>Event Manager</strong></div>
+                    <div class="cosmo-mini-row"><strong>Developers</strong></div>
+                    <div class="cosmo-mini-row"><strong>Moderators</strong></div>
+                    <div class="cosmo-mini-row"><strong>Staff</strong></div>
+                    <div class="cosmo-mini-row"><strong>Support Team</strong></div>
+                </div>
+            </article>
+        </section>
+
+        {% if hasCustomContent %}
+            <section class="cosmo-card cosmo-reveal">
+                <div class="cosmo-richtext">{{ metaData.content|raw }}</div>
+            </section>
+        {% else %}
+            <section class="cosmo-staff-grid">
+                <article class="cosmo-staff-role cosmo-reveal"><h4>Chairman</h4><p>Add name and skin</p></article>
+                <article class="cosmo-staff-role cosmo-reveal"><h4>B.O.D</h4><p>Add name and skin</p></article>
+                <article class="cosmo-staff-role cosmo-reveal"><h4>CEO</h4><p>Add name and skin</p></article>
+                <article class="cosmo-staff-role cosmo-reveal"><h4>Manager</h4><p>Add name and skin</p></article>
+                <article class="cosmo-staff-role cosmo-reveal"><h4>Event Manager</h4><p>Add name and skin</p></article>
+                <article class="cosmo-staff-role cosmo-reveal"><h4>Developers</h4><p>Add name and skin</p></article>
+                <article class="cosmo-staff-role cosmo-reveal"><h4>Moderators</h4><p>Add name and skin</p></article>
+                <article class="cosmo-staff-role cosmo-reveal"><h4>Staff</h4><p>Add name and skin</p></article>
+                <article class="cosmo-staff-role cosmo-reveal"><h4>Support Team</h4><p>Add name and skin</p></article>
+            </section>
+        {% endif %}
+    {% else %}
+        <section class="cosmo-card cosmo-reveal">
+            <p class="cosmo-eyebrow">Custom Page</p>
+            <h1 class="cosmo-page-title">{{ title }}</h1>
+            <div class="cosmo-richtext">{{ metaData.content|raw }}</div>
+        </section>
+    {% endif %}
+{% endblock %}

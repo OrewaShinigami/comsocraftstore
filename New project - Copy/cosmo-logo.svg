@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Cosmo Craft logo">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8f63ff"/>
+      <stop offset="100%" stop-color="#5ce1ff"/>
+    </linearGradient>
+    <radialGradient id="planet" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#d6c6ff"/>
+    </radialGradient>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="#090b18"/>
+  <circle cx="64" cy="64" r="42" fill="url(#planet)"/>
+  <ellipse cx="64" cy="64" rx="58" ry="18" fill="none" stroke="url(#bg)" stroke-width="10"/>
+  <circle cx="92" cy="30" r="5" fill="#ffffff"/>
+  <circle cx="33" cy="28" r="3" fill="#5ce1ff"/>
+  <path d="M35 89 L52 68 L64 83 L82 57 L97 89 Z" fill="#6e45d6" opacity="0.9"/>
+  <path d="M31 94 L48 73 L60 88 L78 62 L93 94 Z" fill="#ffffff" opacity="0.3"/>
+</svg>

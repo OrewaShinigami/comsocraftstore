@@ -1,0 +1,6 @@
+<section class="cosmo-sidebar-card cosmo-section">
+    <p class="cosmo-eyebrow">{{ module.header }}</p>
+    <h3>{% if module.online %}Server online{% else %}Server offline{% endif %}</h3>
+    <p class="cosmo-muted">{{ module.ip }}:{{ module.port }}</p>
+    <p class="cosmo-muted">Players: {{ module.players.online }} / {{ module.players.max }}</p>
+</section>

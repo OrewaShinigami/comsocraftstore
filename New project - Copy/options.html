@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <section class="cosmo-page-header cosmo-reveal">
+        <article class="cosmo-option-card">
+            <p class="cosmo-eyebrow">Package Options</p>
+            <h1 class="cosmo-page-title">{{ options.package.name }}</h1>
+            <p class="cosmo-page-lead">This package needs a little more information before it can be added to your basket.</p>
+
+            <form class="cosmo-form-grid" method="post">
+                {% if options.package.customPrice %}
+                    <div class="cosmo-field">
+                        <label for="price">Your Price</label>
+                        <input class="cosmo-input" id="price" name="price" type="number" min="0" step="0.01" value="{{ options.package.price ? options.package.price : '' }}" placeholder="Enter your price">
+                    </div>
+                {% endif %}
+
+                {% for variable in options.variables %}
+                    <div class="cosmo-field">
+                        <label for="option_{{ variable.id }}">{{ variable.name }}</label>
+                        {% if variable.description %}
+                            <small class="cosmo-muted">{{ variable.description }}</small>
+                        {% endif %}
+
+                        {% if variable.type == 'dropdown' %}
+                            <select class="cosmo-select" id="option_{{ variable.id }}" name="options[{{ variable.id }}]">
+                                {% for choice in variable.options %}
+                                    {% set choiceValue = choice.value is defined ? choice.value : (choice.name is defined ? choice.name : choice) %}
+                                    {% set choiceLabel = choice.name is defined ? choice.name : choice %}
+                                    <option value="{{ choiceValue }}" {% if (variable.value and variable.value == choiceValue) or (choice.default is defined and choice.default) %}selected{% endif %}>
+                                        {{ choiceLabel }}{% if choice.price is defined and choice.price %} (+{{ choice.price }}){% endif %}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        {% elseif variable.type == 'discord_id' %}
+                            {% if variable.value %}
+                                <input type="hidden" name="options[{{ variable.id }}]" value="{{ variable.value }}">
+                                <input class="cosmo-input" type="text" value="{{ variable.discord_tag ? variable.discord_tag : variable.value }}" readonly>
+                            {% else %}
+                                <input class="cosmo-input" id="option_{{ variable.id }}" name="options[{{ variable.id }}]" type="text" placeholder="Enter your Discord ID">
+                            {% endif %}
+                        {% elseif variable.type == 'textarea' %}
+                            <textarea class="cosmo-textarea" id="option_{{ variable.id }}" name="options[{{ variable.id }}]" rows="4" placeholder="{{ variable.placeholder ? variable.placeholder : variable.name }}">{{ variable.value ? variable.value : '' }}</textarea>
+                        {% else %}
+                            <input class="cosmo-input" id="option_{{ variable.id }}" name="options[{{ variable.id }}]" type="text" value="{{ variable.value ? variable.value : '' }}" placeholder="{{ variable.placeholder ? variable.placeholder : variable.name }}">
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <p class="cosmo-muted">No extra options were supplied for this package.</p>
+                {% endfor %}
+
+                <div class="cosmo-inline-actions">
+                    <button class="cosmo-button" type="submit">Add package</button>
+                    <a class="cosmo-button-secondary" href="/package/{{ options.package.identifier ? options.package.identifier : options.package.id }}">Back to package</a>
+                </div>
+            </form>
+        </article>
+
+        <article class="cosmo-option-card">
+            <p class="cosmo-eyebrow">Package Summary</p>
+            <h3>{{ options.package.name }}</h3>
+            <div class="cosmo-price-line">
+                {% if options.package.customPrice %}
+                    <strong>You choose the price</strong>
+                {% else %}
+                    <strong>{{ options.package.price|money }}</strong>
+                {% endif %}
+            </div>
+            {% if options.package.description %}
+                <div class="cosmo-package-description">{{ options.package.description|raw }}</div>
+            {% endif %}
+        </article>
+    </section>
+{% endblock %}

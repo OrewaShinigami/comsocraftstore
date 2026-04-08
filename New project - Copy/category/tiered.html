@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <section class="cosmo-page-header cosmo-reveal">
+        <article class="cosmo-card">
+            <p class="cosmo-eyebrow">Tiered Category</p>
+            <h1 class="cosmo-page-title">{{ category.name }}</h1>
+            {% if category.description %}
+                <div class="cosmo-richtext">{{ category.description|raw }}</div>
+            {% endif %}
+        </article>
+
+        <article class="cosmo-card">
+            <p class="cosmo-eyebrow">Subscription Flow</p>
+            <p class="cosmo-muted">This category uses Tebex tier logic. Customers can subscribe, upgrade, or confirm a pending downgrade right from the package card.</p>
+        </article>
+    </section>
+
+    {% if category.packages|length > 0 %}
+        <section class="cosmo-package-grid">
+            {% for package in category.packages %}
+                {% set packageIdentifier = package.identifier ? package.identifier : package.id %}
+                <article class="cosmo-package-card cosmo-reveal">
+                    {% if package.image and package.image.url %}
+                        <div class="cosmo-package-media">
+                            <img src="{{ package.image.url }}" alt="{{ package.name }}">
+                        </div>
+                    {% else %}
+                        <div class="cosmo-package-symbol">T</div>
+                    {% endif %}
+
+                    <div>
+                        <p class="cosmo-eyebrow">Tier {{ loop.index }}</p>
+                        <h3>{{ package.name }}</h3>
+                        <div class="cosmo-price-line">
+                            {% if package.customPrice %}
+                                <strong>You choose the price</strong>
+                            {% elseif package.price == 0.00 %}
+                                <strong>Free</strong>
+                            {% else %}
+                                <strong>{{ package.price|money }}</strong>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="cosmo-package-description">{{ package.description|raw }}</div>
+
+                    <div class="cosmo-package-actions">
+                        {% if tier and tier.package_id == package.id %}
+                            <button class="cosmo-button-secondary" disabled>Subscribed</button>
+                        {% elseif tier and tier.downgrade_package_id == package.id %}
+                            <button class="cosmo-button-secondary" disabled>Pending downgrade</button>
+                        {% elseif tier %}
+                            <a class="cosmo-button" href="/tier/quote?category={{ category.id }}&amp;package={{ package.id }}">Switch tier</a>
+                        {% else %}
+                            <a class="cosmo-button" href="/checkout/packages/add/{{ packageIdentifier }}/subscribe">Subscribe</a>
+                        {% endif %}
+
+                        {% if package.basket %}
+                            <button class="cosmo-button-ghost" type="button" data-open-cart>Added</button>
+                        {% endif %}
+                    </div>
+                </article>
+            {% endfor %}
+        </section>
+    {% endif %}
+{% endblock %}

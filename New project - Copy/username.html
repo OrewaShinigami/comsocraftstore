@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <section class="cosmo-page-header cosmo-reveal">
+        <article class="cosmo-checkout-box">
+            <p class="cosmo-eyebrow">Player Login</p>
+            <h1 class="cosmo-page-title">Connect your Minecraft username</h1>
+            <p class="cosmo-page-lead">Use the same username you play with so ranks, keys, and balance rewards are delivered correctly.</p>
+
+            {% if external %}
+                <div class="cosmo-form-grid">
+                    <p class="cosmo-muted">Your store uses {{ provider }} login. Continue with the secure provider flow below.</p>
+                    <a class="cosmo-button" href="{{ url }}">Login via {{ provider }}</a>
+                </div>
+            {% else %}
+                <form class="cosmo-form-grid" method="post">
+                    <div class="cosmo-field">
+                        <label for="ign">Minecraft Username</label>
+                        <input class="cosmo-input" id="ign" name="ign" type="text" value="{{ basket.ign ? basket.ign : '' }}" placeholder="Enter your Minecraft username" required>
+                    </div>
+                    <button class="cosmo-button" type="submit">Continue to store</button>
+                </form>
+            {% endif %}
+        </article>
+
+        <article class="cosmo-checkout-box">
+            <p class="cosmo-eyebrow">Why this matters</p>
+            <div class="cosmo-mini-list">
+                <div class="cosmo-mini-row">
+                    <div>
+                        <strong>Correct delivery</strong>
+                        <small class="cosmo-muted">Ranks and commands go to the exact account you enter here.</small>
+                    </div>
+                </div>
+                <div class="cosmo-mini-row">
+                    <div>
+                        <strong>Faster support</strong>
+                        <small class="cosmo-muted">Staff can verify your purchase faster when the username matches your ticket.</small>
+                    </div>
+                </div>
+                <div class="cosmo-mini-row">
+                    <div>
+                        <strong>Safer checkout</strong>
+                        <small class="cosmo-muted">You can review your basket before paying and still change your username if needed.</small>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </section>
+{% endblock %}

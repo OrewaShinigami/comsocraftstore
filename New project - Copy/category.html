@@ -1,0 +1,145 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    {% set categoryKey = (category.slug ? category.slug : category.name)|lower %}
+    {% set categorySubtitle = 'Browse the latest packages from this section of the store.' %}
+
+    {% if 'rank' in categoryKey %}
+        {% set categorySubtitle = 'Upgrade through the cosmic rank ladder and unlock more homes, kits, and commands.' %}
+    {% elseif 'money' in categoryKey or 'coin' in categoryKey or 'cash' in categoryKey %}
+        {% set categorySubtitle = 'Boost your balance fast with direct in-game money packages.' %}
+    {% elseif 'custom' in categoryKey %}
+        {% set categorySubtitle = 'Open a ticket, explain your idea, and staff will quote you for a custom order.' %}
+    {% endif %}
+
+    <section class="cosmo-page-header cosmo-reveal">
+        <article class="cosmo-card">
+            <p class="cosmo-eyebrow">Store Category</p>
+            <h1 class="cosmo-page-title">{{ category.name }}</h1>
+            <p class="cosmo-page-lead">{{ categorySubtitle }}</p>
+
+            {% if category.description %}
+                <div class="cosmo-richtext">{{ category.description|raw }}</div>
+            {% endif %}
+
+            <div class="cosmo-inline-actions">
+                <a class="cosmo-button" href="/checkout">Open checkout</a>
+                <a class="cosmo-button-secondary" href="{{ config('discord-url') ? config('discord-url') : '#' }}" target="_blank" rel="noreferrer">Join Discord</a>
+            </div>
+        </article>
+
+        <article class="cosmo-card">
+            <p class="cosmo-eyebrow">Quick Notes</p>
+            <div class="cosmo-badge-list">
+                <span class="cosmo-chip">{{ category.packages|length }} packages available</span>
+                <span class="cosmo-chip">Currency: {{ basket.currency ? basket.currency : store.currency }}</span>
+                <span class="cosmo-chip">Cart items: {{ basket.packages|length }}</span>
+            </div>
+            <p class="cosmo-muted">If a package includes detailed perks or commands, that copy will display right inside the card when you paste the descriptions from the included setup files.</p>
+        </article>
+    </section>
+
+    {% if category.packages|length > 0 %}
+        <section class="cosmo-package-grid">
+            {% for package in category.packages %}
+                {% set packageIdentifier = package.identifier ? package.identifier : package.id %}
+                {% set purchaseType = package.type is defined and package.type == 'subscription' ? 'subscribe' : 'single' %}
+                {% set packageKey = package.name|lower %}
+                {% set packageTheme = 'standard' %}
+                {% set packageSymbol = '*' %}
+
+                {% if 'gold' in packageKey %}
+                    {% set packageTheme = 'gold' %}
+                    {% set packageSymbol = 'G' %}
+                {% elseif 'diamond' in packageKey %}
+                    {% set packageTheme = 'diamond' %}
+                    {% set packageSymbol = 'D' %}
+                {% elseif 'emerald' in packageKey %}
+                    {% set packageTheme = 'emerald' %}
+                    {% set packageSymbol = 'E' %}
+                {% elseif 'netherite' in packageKey %}
+                    {% set packageTheme = 'netherite' %}
+                    {% set packageSymbol = 'N' %}
+                {% elseif 'amethyst' in packageKey %}
+                    {% set packageTheme = 'amethyst' %}
+                    {% set packageSymbol = 'A' %}
+                {% elseif 'custom' in packageKey %}
+                    {% set packageTheme = 'custom' %}
+                    {% set packageSymbol = 'C' %}
+                {% elseif 'money' in categoryKey or 'coin' in categoryKey or 'cash' in categoryKey %}
+                    {% set packageTheme = 'money' %}
+                    {% set packageSymbol = '$' %}
+                {% endif %}
+
+                <article class="cosmo-package-card cosmo-reveal" data-package-theme="{{ packageTheme }}">
+                    <a href="/package/{{ packageIdentifier }}">
+                        {% if package.image and package.image.url %}
+                            <div class="cosmo-package-media">
+                                <img src="{{ package.image.url }}" alt="{{ package.name }}">
+                            </div>
+                        {% else %}
+                            <div class="cosmo-package-symbol">{{ packageSymbol }}</div>
+                        {% endif %}
+                    </a>
+
+                    <div>
+                        <p class="cosmo-eyebrow">Package {{ loop.index }}</p>
+                        <h3>{{ package.name }}</h3>
+                        <div class="cosmo-price-line">
+                            {% if package.discount is defined and package.discount.applied %}
+                                <del>{{ package.discount.original|money }}</del>
+                            {% endif %}
+
+                            {% if package.customPrice %}
+                                <strong>You choose the price</strong>
+                            {% elseif package.price == 0.00 %}
+                                <strong>Free</strong>
+                            {% else %}
+                                <strong>{{ package.price|money }}</strong>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    {% if package.description %}
+                        <div class="cosmo-package-description">{{ package.description|raw }}</div>
+                    {% else %}
+                        <p class="cosmo-muted">Add a description in Tebex to show perks, commands, and upgrade details here.</p>
+                    {% endif %}
+
+                    {% if package.purchasable == false %}
+                        <p class="cosmo-muted">{{ package.reason }}</p>
+                    {% endif %}
+
+                    <div class="cosmo-package-actions">
+                        {% if package.purchasable == false %}
+                            <span class="cosmo-button-secondary">{{ package.reason ? package.reason : 'Unavailable' }}</span>
+                        {% else %}
+                            <a class="cosmo-button" href="/checkout/packages/add/{{ packageIdentifier }}/{{ purchaseType }}">Add to cart</a>
+                        {% endif %}
+                        <a class="cosmo-button-secondary" href="/package/{{ packageIdentifier }}">Details</a>
+                        {% if package.basket %}
+                            <button class="cosmo-button-ghost" type="button" data-open-cart>Added</button>
+                        {% endif %}
+                    </div>
+                </article>
+            {% endfor %}
+        </section>
+    {% else %}
+        <section class="cosmo-empty-state cosmo-reveal">
+            <h2>No packages yet</h2>
+            <p>This category is ready, but it doesn't have packages assigned yet. Add packages in Tebex and they will appear here automatically.</p>
+        </section>
+    {% endif %}
+
+    {% if 'custom' in categoryKey %}
+        <section class="cosmo-vote-cta cosmo-support-warning cosmo-reveal">
+            <p class="cosmo-eyebrow">Custom Orders</p>
+            <h3>Create a ticket before ordering</h3>
+            <p>Use the Discord ticket system to describe the custom item you want. Staff will review it and tell you how to proceed.</p>
+            <p><strong>{{ config('custom-warning-text') ? config('custom-warning-text') : 'Warning: opening a custom order ticket and wasting staff time without buying may lead to a ban.' }}</strong></p>
+            <div class="cosmo-inline-actions">
+                <a class="cosmo-button" href="{{ config('custom-ticket-url') ? config('custom-ticket-url') : (config('discord-url') ? config('discord-url') : '#') }}" target="_blank" rel="noreferrer">Open Discord ticket</a>
+            </div>
+        </section>
+    {% endif %}
+{% endblock %}

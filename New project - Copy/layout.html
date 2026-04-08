@@ -1,0 +1,224 @@
+{% set primaryColour = config('primary-colour') ? config('primary-colour') : '#8f63ff' %}
+{% set secondaryColour = config('secondary-colour') ? config('secondary-colour') : '#ffffff' %}
+{% set accentColour = config('accent-colour') ? config('accent-colour') : '#5ce1ff' %}
+{% set surfaceColour = config('surface-colour') ? config('surface-colour') : '#101126' %}
+{% set discordUrl = config('discord-url') ? config('discord-url') : '#' %}
+{% set serverIp = config('server-ip') ? config('server-ip') : 'play.cosmocraft.net' %}
+{% set customLogo = config('brand-mark') ? config('brand-mark') : '' %}
+{% set customFavicon = config('custom-favicon') ? config('custom-favicon') : '' %}
+{% set metaDescription = config('meta-description') ? config('meta-description') : 'Cosmo Craft SMP is a space-themed Minecraft community store powered by Tebex.' %}
+{% set preferredCurrencies = ['USD', 'INR', 'AUD', 'EUR', 'PLN', 'GBP'] %}
+{% set availableCurrencies = store.currencies is defined and store.currencies|length > 0 ? store.currencies : preferredCurrencies %}
+{% set activeLogo = customLogo ? customLogo : (store.logo ? store.logo : asset('cosmo-logo.svg')) %}
+{% set activeFavicon = customFavicon ? customFavicon : (store.favicon ? store.favicon : asset('cosmo-favicon.svg')) %}
+{% set basketCount = basket.packages is defined ? basket.packages|length : 0 %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% if page.title %}{{ page.title }} | {% endif %}{{ store.name }}</title>
+    <meta name="theme-color" content="{{ primaryColour }}">
+    <meta name="description" content="{{ metaDescription }}">
+    <link rel="icon" href="{{ activeFavicon }}">
+    <link rel="preconnect" href="https://js.tebex.io">
+    <link rel="stylesheet" href="{{ asset('cosmo-theme.css') }}">
+    <style>
+        :root {
+            --cosmo-primary: {{ primaryColour }};
+            --cosmo-secondary: {{ secondaryColour }};
+            --cosmo-accent: {{ accentColour }};
+            --cosmo-surface: {{ surfaceColour }};
+        }
+    </style>
+    {% if store.css %}
+        <style>{{ store.css|raw }}</style>
+    {% endif %}
+    {% if store.googleAnalytics %}
+        {{ store.googleAnalytics|raw }}
+    {% endif %}
+    <script defer src="https://js.tebex.io/v/1.js"></script>
+    <script defer src="{{ asset('cosmo-theme.js') }}"></script>
+</head>
+<body data-basket-ident="{{ basket.ident is defined ? basket.ident : '' }}">
+    <div class="cosmo-scene" aria-hidden="true">
+        <span class="cosmo-nebula cosmo-nebula-a"></span>
+        <span class="cosmo-nebula cosmo-nebula-b"></span>
+        <span class="cosmo-nebula cosmo-nebula-c"></span>
+        <span class="cosmo-stars"></span>
+        <span class="cosmo-grid"></span>
+    </div>
+
+    <div class="cosmo-shell">
+        <header class="cosmo-header">
+            <div class="cosmo-topbar">
+                <button class="cosmo-pill cosmo-pill-copy" type="button" data-copy-value="{{ serverIp }}">
+                    <span class="cosmo-pill-label">Server IP</span>
+                    <span class="cosmo-pill-value">{{ serverIp }}</span>
+                </button>
+                <a class="cosmo-pill" href="{{ discordUrl }}" target="_blank" rel="noreferrer">
+                    <span class="cosmo-pill-label">Discord</span>
+                    <span class="cosmo-pill-value">Join the community</span>
+                </a>
+            </div>
+
+            <div class="cosmo-nav-wrap">
+                <a class="cosmo-brand" href="/">
+                    <img class="cosmo-brand-mark" src="{{ activeLogo }}" alt="{{ store.name }}">
+                    <span class="cosmo-brand-copy">
+                        <strong>{{ store.name }}</strong>
+                        <small>Space-fueled SMP storefront</small>
+                    </span>
+                </a>
+
+                <button class="cosmo-mobile-toggle" type="button" data-nav-toggle aria-label="Toggle navigation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
+                <nav class="cosmo-nav" data-nav-menu>
+                    <a class="cosmo-nav-link" href="/">Home</a>
+                    <a class="cosmo-nav-link" href="/rules">Rules</a>
+                    <a class="cosmo-nav-link" href="/vote">Vote</a>
+                    <a class="cosmo-nav-link" href="/store">Store</a>
+                    <a class="cosmo-nav-link" href="/staff">Staff</a>
+
+                    {% if store.categories is defined and store.categories|length > 0 %}
+                        <div class="cosmo-nav-dropdown">
+                            <button class="cosmo-nav-link cosmo-nav-link-button" type="button">Categories</button>
+                            <div class="cosmo-nav-dropdown-menu">
+                                {% for navCategory in store.categories %}
+                                    <a href="/category/{{ navCategory.slug ? navCategory.slug : navCategory.id }}">{{ navCategory.name }}</a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </nav>
+
+                <div class="cosmo-utility">
+                    {% if store.noLogin %}
+                        <span class="cosmo-user">Guest Checkout</span>
+                    {% else %}
+                        <a class="cosmo-user" href="/username">
+                            {{ basket.ign ? basket.ign : 'Login' }}
+                        </a>
+                    {% endif %}
+
+                    <button class="cosmo-cart-trigger" type="button" data-cart-toggle>
+                        <span>Cart</span>
+                        <strong>{{ basketCount }}</strong>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        {% if page.message.display %}
+            <div class="cosmo-toast cosmo-toast-{{ page.message.type ? page.message.type : 'info' }}">
+                {{ page.message.text }}
+            </div>
+        {% endif %}
+
+        <main class="cosmo-main">
+            <div class="cosmo-content-layout{% if modules is defined and modules|trim != '' %} has-sidebar{% endif %}">
+                <section class="cosmo-content">
+                    {% block content %}{% endblock %}
+                </section>
+
+                {% if modules is defined and modules|trim != '' %}
+                    <aside class="cosmo-sidebar">
+                        {{ modules|raw }}
+                    </aside>
+                {% endif %}
+            </div>
+        </main>
+
+        <footer class="cosmo-footer">
+            <div class="cosmo-footer-copy">
+                <strong>{{ store.name }}</strong>
+                <p>{{ config('footer-note') ? config('footer-note') : 'Built for explorers, raiders, traders, and every cosmic survivor in Cosmo Craft.' }}</p>
+            </div>
+            <div class="cosmo-footer-links">
+                <a href="/terms">Terms</a>
+                <a href="/privacy">Privacy</a>
+                <a href="/impressum">Impressum</a>
+            </div>
+            <p class="cosmo-footer-legal">
+                Not affiliated with Mojang or Microsoft. Tebex handles billing, payments, and digital fulfilment for this store.
+            </p>
+        </footer>
+    </div>
+
+    <aside class="cosmo-cart-drawer" data-cart-drawer aria-hidden="true">
+        <div class="cosmo-cart-overlay" data-cart-close></div>
+        <div class="cosmo-cart-panel">
+            <div class="cosmo-cart-header">
+                <div>
+                    <p class="cosmo-eyebrow">Basket</p>
+                    <h2>{{ basketCount }} item{% if basketCount != 1 %}s{% endif %}</h2>
+                </div>
+                <button class="cosmo-icon-button" type="button" data-cart-close aria-label="Close cart">x</button>
+            </div>
+
+            <section class="cosmo-cart-section">
+                <div class="cosmo-section-head">
+                    <h3>Currency</h3>
+                    <span>{{ basket.currency ? basket.currency : store.currency }}</span>
+                </div>
+                <div class="cosmo-currency-grid">
+                    {% for currency in availableCurrencies %}
+                        <a class="cosmo-currency-chip{% if (basket.currency ? basket.currency : store.currency) == currency %} is-active{% endif %}" href="?currency={{ currency }}">{{ currency }}</a>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <section class="cosmo-cart-section">
+                <div class="cosmo-section-head">
+                    <h3>Items</h3>
+                    <a class="cosmo-cart-link" href="/checkout">Review checkout</a>
+                </div>
+
+                {% if basket.packages is defined and basket.packages|length > 0 %}
+                    <div class="cosmo-cart-items">
+                        {% for basketPackage in basket.packages %}
+                            <article class="cosmo-cart-item">
+                                <div class="cosmo-cart-item-copy">
+                                    <strong>{{ basketPackage.name }}</strong>
+                                    <small>Qty {{ basketPackage.quantity is defined ? basketPackage.quantity : 1 }}</small>
+                                </div>
+                                <div class="cosmo-cart-item-meta">
+                                    <span>{{ basketPackage.price|money }}</span>
+                                    <a href="/checkout/packages/remove/{{ basketPackage.id }}">Remove</a>
+                                </div>
+                            </article>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="cosmo-empty-state">
+                        <p>Your cart is empty right now.</p>
+                        <small>Pick a rank, keys, or money package to start building your advantage.</small>
+                    </div>
+                {% endif %}
+            </section>
+
+            <section class="cosmo-cart-section cosmo-cart-section-total">
+                <div class="cosmo-section-head">
+                    <h3>Total</h3>
+                    <strong>{{ basket.price|money }}</strong>
+                </div>
+                <div class="cosmo-cart-actions">
+                    <a class="cosmo-button cosmo-button-secondary" href="/store">Browse store</a>
+                    <a class="cosmo-button" href="/checkout">Checkout</a>
+                </div>
+                {% if basket.copy_link %}
+                    <button class="cosmo-pill cosmo-pill-copy" type="button" data-copy-value="{{ basket.copy_link }}">
+                        <span class="cosmo-pill-label">Share basket</span>
+                        <span class="cosmo-pill-value">Copy link</span>
+                    </button>
+                {% endif %}
+            </section>
+        </div>
+    </aside>
+</body>
+</html>
